@@ -34,7 +34,7 @@ public class Habitaciones {
     
     public void reservar()
     {
-        
+        //Escribir código...
     }
     
     public float metodoPago()
