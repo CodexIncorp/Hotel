@@ -18,4 +18,6 @@ public class Estandar extends Habitaciones {
                 horaI_servicio, horaF_servicio);
         this.capacidad_max = capacidad_max;
     }
+    
+    //Añadir métodos...
 }
