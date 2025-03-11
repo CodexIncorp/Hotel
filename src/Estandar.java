@@ -5,7 +5,7 @@
 
 /**
  *
- * @author Ackwi
+ * aaaaaaaaaaaa
  */
 public class Estandar extends Habitaciones {
     int capacidad_max;
