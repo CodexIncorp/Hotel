@@ -1,42 +1,74 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 
-/**
- *
- * @author Ackwi
- */
-public class Suite extends Habitaciones {
-    String vista;
-    int cuartos;
-    private String wifi_priv;
-    Boolean jacuzzi;
-    Boolean terraza;
-    String[] servicios_vip;
 
-    public Suite(String vista, int cuartos, String wifi_priv, Boolean jacuzzi, Boolean terraza, 
-            String[] servicios_vip, float precio, int numero_habitacion, Boolean disponibilidad,
-            int n_camas, String tipo_cama, String wifi, String clave_acceso, int horaI_servicio, 
-            int horaF_servicio) 
-    {
-        super(precio, numero_habitacion, disponibilidad, n_camas, tipo_cama, wifi, clave_acceso, 
-                horaI_servicio, horaF_servicio);
-        this.vista = vista;
-        this.cuartos = cuartos;
-        this.wifi_priv = wifi_priv;
-        this.jacuzzi = jacuzzi;
-        this.terraza = terraza;
-        this.servicios_vip = servicios_vip;
+
+
+public class Suite extends Habitaciones implements complemento {
+
+    float precioS; 
+    
+
+    public Suite(String nombre,int nHabitacion, String tipo_H, String tamaño, float precio,int extra,int noche) {
+        super(nombre,nHabitacion, tipo_H, tamaño, precio, extra,noche);
     }
 
-    public String getWifiPriv() 
+ 
+    @Override
+    public void Eleccion() 
     {
-        return wifi_priv;
+       switch(tipo_H)
+       {
+        default -> {
+            }
+       }
+       
+    }
+    
+    
+    void precS(){
+        precio = 8000;
+    }
+  
+    @Override
+    public void calculo()
+    {
+        precioS = precio +(extra*100);
+        System.out.println("el precio final es " + precioS);
     }
 
-    public void setWifiPriv(String wifi_priv) 
+    @Override
+    public void tamañoE() 
     {
-        this.wifi_priv = wifi_priv;
+        System.out.println("El tamaño de la Suite es: " + tamaño);
+        System.out.println("actualmente contamos con las siguientes habitaciones:");
+        System.out.println("chica: 2 personas");
+        System.out.println("mediana:4 personas");
+        System.out.println("grande: 6 personas");
+        System.out.println("el tamaño de habitacion elejido es " + tamaño);
+    }
+
+   
+    @Override
+    public void noches() {
+        System.out.println("La cantidad de noches resrvadas son " + noche);
+
+    }
+
+   // @Override
+    //public void check_out(){
+
+    
+
+    
+    void inf_S() {
+        System.out.println("--------------------");
+        System.out.println(" Suite ");
+        System.out.println("Precio base por noche: $" + precioS);
+        System.out.println(" Beneficios exclusivos:");
+        System.out.println(" Habitacion amplia con vista panoramica");
+        System.out.println(" Camas mas Grande");
+        System.out.println(" Wifi exclusivo");
+        System.out.println(" Servicio de atencion privada");
+        System.out.println(" Alimentos y bebidas incluidos");
+        System.out.println("--------------------");
     }
 }
