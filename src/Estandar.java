@@ -1,6 +1,3 @@
-
-
-
 public class Estandar extends Habitaciones implements complemento{
     float precioF;
     

@@ -1,5 +1,3 @@
-
-
 interface complemento {
     
     void Eleccion();

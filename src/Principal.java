@@ -1,22 +1,22 @@
 
-
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
 
 public class Principal {
+
+    static boolean error = true;
+
     public static void main(String[] args) {
         int nHabitacion = 0, i, habitacion = 0;
         int noche = 0, ext = 0;
-        String nombre , Elec = "", tamaño , re, accion, otra_accion="";
+        String nombre, Elec = "", tamaño, re, accion, otra_accion = "";
 
         ArrayList<Estandar> cl = new ArrayList<>();
         ArrayList<Suite> cl2 = new ArrayList<>();
 
         Scanner input = new Scanner(System.in);
-
-        System.out.println("Bienvenido al Hotel HostBints");
+        login();
 
         if (nHabitacion == 0) {
             System.out.println("Ingrese el numero de habitaciones totales:");
@@ -24,9 +24,8 @@ public class Principal {
         }
 
         ArrayList<Boolean> estandar = new ArrayList<>(Collections.nCopies(nHabitacion, true));
-        input.nextLine(); 
+        input.nextLine();
 
-       
         int reservaEstandar = 1; // Contador de reservas Estándar
         int reservaSuite = 1;    // Contador de reservas Suite
 
@@ -37,7 +36,6 @@ public class Principal {
             if (chek.equalsIgnoreCase("check in")) {
                 boolean habitacionAsignada = false;
 
-               
                 for (i = 0; i < nHabitacion; i++) {
                     if (estandar.get(i)) {
                         System.out.println("Su numero de habitacion sera " + (i + 1));
@@ -56,14 +54,13 @@ public class Principal {
                 System.out.println("Ingrese el nombre del cliente a reservar:");
                 nombre = input.nextLine();
 
-           
                 do {
                     System.out.println("Seleccione el tipo de habitacion:");
                     System.out.println("1 - Estándar\n2 - Suite");
                     Elec = input.nextLine();
 
                     if (Elec.equalsIgnoreCase("1")) {
-                        
+
                         Estandar objE = new Estandar("", 0, "0", "0", 0, 0, 0);
                         objE.precE();
                         objE.inf_E();
@@ -77,9 +74,8 @@ public class Principal {
 
                     System.out.println("¿Está seguro de su elección? (si/no)");
                     re = input.nextLine();
-                    
+
                     //correguir poner un while
-                    
                 } while (!Elec.equalsIgnoreCase("1") && !Elec.equalsIgnoreCase("2"));
 
                 if (re.equalsIgnoreCase("no")) {
@@ -98,14 +94,14 @@ public class Principal {
 
                 // El tamaño de la habitación
                 System.out.println("Elija el tamaño de la habitación:");
-                if((Elec).equalsIgnoreCase("Estandar")){
+                if ((Elec).equalsIgnoreCase("Estandar")) {
                     Estandar objE = new Estandar("", 0, "0", "0", 0, 0, 0);
                     objE.tamañoE();
-                }else{
+                } else {
                     Suite objS = new Suite("", 0, "0", "0", 0, 0, 0);
                     objS.tamañoE();
                 }
-                
+
                 tamaño = input.nextLine();
 
                 // estas pues son la noches
@@ -144,7 +140,7 @@ public class Principal {
             } else if (chek.equalsIgnoreCase("check out")) {
                 System.out.println("Ingrese el número de habitación para hacer check out:");
                 int numCheckOut = input.nextInt();
-                input.nextLine(); 
+                input.nextLine();
 
                 if (numCheckOut < 1 || numCheckOut > nHabitacion) {
                     System.out.println("Número de habitación inválido.");
@@ -167,18 +163,36 @@ public class Principal {
         //este me sirve que es para que me cuente al final las reservas
         System.out.println("Tickets Estándar");
         for (int j = 0; j < cl.size(); j++) {
-            
+
             cl.get(j).MostrarE(cl);
         }
 
         System.out.println("Tickets Suite");
         for (int j = 0; j < cl2.size(); j++) {
-            
+
             cl2.get(j).MostrarS(cl2);
         }
 
         Habitaciones obje = new Habitaciones("", 0, "", "", 0, 0, 0);
-       
+
+    }
+
+    public static void login() {
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Bienvenido al Hotel HostBint");
+        System.out.println("Por favor, indique su tipo de usuario:");
+        System.out.println("1. Administrador");
+        System.out.println("2. Empleado");
+        System.out.println("3. Cliente");
+        while (error) {
+            try {
+                int tipo_usuario = Integer.parseInt(scan.nextLine());
+                error = false;
+
+            } catch (Exception e) {
+                System.out.println("Error: " + e.getMessage());
+                error = true;
+            }
+        }
     }
 }
-

@@ -1,7 +1,3 @@
-
-
-
-
 public class Suite extends Habitaciones implements complemento {
 
     float precioS; 
