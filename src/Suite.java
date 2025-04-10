@@ -1,6 +1,6 @@
 public class Suite extends Habitacion {
 
-    public Suite(String nombre, String tipo_H, String tamaño, float precio, int noche, int extra) {
+    public Suite(String nombre, int tipo_H, int tamaño, float precio, int noche, int extra) {
         super(nombre, tipo_H, tamaño, precio, noche, extra);
         calcularPrecioPorNoche(); // calculamos el precio por noche al crear la habitacion
     }

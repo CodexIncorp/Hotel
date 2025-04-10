@@ -1,6 +1,6 @@
 public class Estandar extends Habitacion  {
 
-    public Estandar(String nombre, String tipo_H, String tamaño, float precio, int noche, int extra) {
+    public Estandar(String nombre, int tipo_H, int tamaño, float precio, int noche, int extra) {
         super(nombre, tipo_H, tamaño, precio, noche, extra);
         calcularPrecioPorNoche(); 
     }

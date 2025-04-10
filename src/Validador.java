@@ -24,22 +24,24 @@ public class Validador<T> {
                     throw new IllegalArgumentException("Tipo de dato no soportado");
                 }
             } catch (Exception e) {
-                System.out.println("Ingrese un valor valido de tipo " + tipo + ": ");
+                System.out.println("Ingrese un valor valido segun lo especificado: ");
                 scan.next();
             }
         }
     }
 
-    public void validarRango(int inicio, int fin, int entrada) {
-        boolean error = false;
-        if (entrada < inicio || entrada > fin) {
-            while (error) {
+    public int validarRango(int inicio, int fin, int entrada) {
+        boolean error = true;
+        Validador<Integer> scani = new Validador<>();
+        
+        while (error) {
+            if (entrada < inicio || entrada > fin) {
                 System.out.println("Ingrese un valor entero entre " + inicio + " y " + fin + ": ");
-                scan.next();
-                error = true;
+                entrada = scani.validarEntrada(Integer.class);
+            } else {
+                error = false;
             }
-        } else {
-            error = false;
         }
+        return entrada;
     }
 }
