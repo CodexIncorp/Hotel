@@ -2,9 +2,9 @@
 import java.util.ArrayList;
 
 public class Clientes extends Usuarios {
-    ArrayList<Habitaciones> resrvas;
+    ArrayList<Habitacion> resrvas;
 
-    public Clientes(ArrayList<Habitaciones> resrvas, String nombre, int tipo, String correo, String telefono) {
+    public Clientes(ArrayList<Habitacion> resrvas, String nombre, int tipo, String correo, String telefono) {
         super(nombre, tipo, correo, telefono);
         this.resrvas = resrvas;
     }

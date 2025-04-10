@@ -1,190 +1,134 @@
+     
+
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Scanner;
 
 public class Principal {
 
-    static boolean error = true;
-
     public static void main(String[] args) {
-        int nHabitacion = 0, i, habitacion = 0;
-        int noche = 0, ext = 0;
-        String nombre, Elec = "", tamaño, re, accion, otra_accion = "";
-
-        ArrayList<Estandar> cl = new ArrayList<>();
-        ArrayList<Suite> cl2 = new ArrayList<>();
-
+        ArrayList<Habitacion> reservas = new ArrayList<>();
         Scanner input = new Scanner(System.in);
-        login();
+        int nHabitaciones;
+        String nombre, tipoH, tamaño;
+        int noche, extra;
 
-        if (nHabitacion == 0) {
-            System.out.println("Ingrese el numero de habitaciones totales:");
-            nHabitacion = input.nextInt();
-        }
-
-        ArrayList<Boolean> estandar = new ArrayList<>(Collections.nCopies(nHabitacion, true));
+        System.out.println("Bienvenido al Hotel HostBints");
         input.nextLine();
+        
+        System.out.print("Ingrese el numero de habitaciones en el hotel: ");
+        nHabitaciones = input.nextInt();
+        
+        input.nextLine(); 
 
-        int reservaEstandar = 1; // Contador de reservas Estándar
-        int reservaSuite = 1;    // Contador de reservas Suite
+        // esto pues crea las habitaciones disponibles
+        for (int i = 0; i < nHabitaciones; i++) {
+            reservas.add(null);             // inicialmente, todas las habitaciones están vacías
+        }
 
-        do {
-            System.out.println("¿Que accion quiere realizar? (check in / check out)");
-            String chek = input.nextLine();
+        while (true) {
+            System.out.println("\nSeleccione una accion:");
+            System.out.println("1 - Check in");
+            System.out.println("2 - Check out");
+            System.out.println("3 - Mostrar reservas");
+            System.out.println("4 - Salir");
 
-            if (chek.equalsIgnoreCase("check in")) {
-                boolean habitacionAsignada = false;
+            int opcion = input.nextInt();
+            input.nextLine();  
 
-                for (i = 0; i < nHabitacion; i++) {
-                    if (estandar.get(i)) {
-                        System.out.println("Su numero de habitacion sera " + (i + 1));
-                        habitacion = i + 1;
-                        estandar.set(i, false);
-                        habitacionAsignada = true;
-                        break;
+            switch (opcion) {
+                case 1:
+                   
+                   
+                    boolean habitacionAsignada = false;
+
+                    // Mostrar los beneficios antes de elegir la habitacion
+                    System.out.println("\nBeneficios disponibles:");
+                   
+                    Estandar.mostrarBeneficios();
+                    Suite.mostrarBeneficios();
+                    
+                    System.out.println("\nSeleccione tipo de habitacion (Estandar/Suite):");
+                    tipoH = input.nextLine();
+
+                    
+                    System.out.println("Seleccione el tamaño de la habitacion (Chica/Mediana/Grande):");
+                    tamaño = input.nextLine();
+
+                    System.out.println("Ingrese el numero de noches:");
+                    noche = input.nextInt();
+
+                    System.out.println("¿Cuantas personas extras?");
+                    extra = input.nextInt();
+                    input.nextLine();  
+
+                   
+                    for (int i = 0; i < nHabitaciones; i++) {
+                        if (reservas.get(i) == null || !reservas.get(i).isOcupada()) {
+                            System.out.println("Su numero de habitacion es: " + (i + 1));
+                            System.out.println("Ingrese el nombre del cliente:");
+                            nombre = input.nextLine();
+
+                            if (tipoH.equalsIgnoreCase("Estandar")) {
+                                Habitacion habitacion = new Estandar(nombre, tipoH, tamaño, 3600, noche, extra);
+                                reservas.set(i, habitacion);
+                            } else if (tipoH.equalsIgnoreCase("Suite")) {
+                                Habitacion habitacion = new Suite(nombre, tipoH, tamaño, 3600, noche, extra);
+                                reservas.set(i, habitacion);
+                            }
+                            reservas.get(i).marcarOcupada();
+                            habitacionAsignada = true;
+                            System.out.println("Reserva realizada con exito.");
+                            break;
+                        }
                     }
-                }
 
-                if (!habitacionAsignada) {
-                    System.out.println("Lo sentimos, no hay habitaciones disponibles.");
-                    continue;
-                }
+                    if (!habitacionAsignada) {
+                        System.out.println("Lo siento, no hay habitaciones disponibles.");
+                    }
+                    break;
 
-                System.out.println("Ingrese el nombre del cliente a reservar:");
-                nombre = input.nextLine();
+                case 2:
+                    
+                    System.out.println("Ingrese el numero de habitacion para hacer check out:");
+                    int numCheckOut = input.nextInt();
+                    input.nextLine();  
 
-                do {
-                    System.out.println("Seleccione el tipo de habitacion:");
-                    System.out.println("1 - Estándar\n2 - Suite");
-                    Elec = input.nextLine();
-
-                    if (Elec.equalsIgnoreCase("1")) {
-
-                        Estandar objE = new Estandar("", 0, "0", "0", 0, 0, 0);
-                        objE.precE();
-                        objE.inf_E();
-                    } else if (Elec.equals("2")) {
-                        Suite objS = new Suite("", 0, "0", "0", 0, 0, 0);
-                        objS.precS();
-                        objS.inf_S();
+                    if (numCheckOut < 1 || numCheckOut > nHabitaciones) {
+                        System.out.println("numero de habitacion invalido.");
+                    } else if (reservas.get(numCheckOut - 1) == null || !reservas.get(numCheckOut - 1).isOcupada()) {
+                        System.out.println("La habitacion ya esta libre.");
                     } else {
-                        System.out.println("Opcion no valida. Intente de nuevo.");
+                        reservas.get(numCheckOut - 1).marcarLibre();
+                        System.out.println("Check out exitoso..... La habitación ha sido liberada.");
                     }
+                    break;
 
-                    System.out.println("¿Está seguro de su elección? (si/no)");
-                    re = input.nextLine();
+                case 3://muestra mis reservas
+                    System.out.println("Lista de reservas:");
+                    for (int i = 0; i < nHabitaciones; i++) {
+                        if (reservas.get(i) != null && reservas.get(i).isOcupada()) {
+                            System.out.println("Habitacion " + (i + 1) + ":");
+                            reservas.get(i).mostrarReserva();
+                            
+                        } else {
+                            System.out.println("Habitacion " + (i + 1) + " esta libre.");
+                        }
+                    }
+                    break;
 
-                    //correguir poner un while
-                } while (!Elec.equalsIgnoreCase("1") && !Elec.equalsIgnoreCase("2"));
+                case 4:
+                    
+                    System.out.println("Saliendo...");
+                    input.close();
+                    return;
 
-                if (re.equalsIgnoreCase("no")) {
-                    System.out.println("Reserva cancelada.");
-                    estandar.set(habitacion - 1, true);
-                    continue;
-                }
-
-                if (Elec.equals("1")) {
-                    Elec = "Estandar";
-                } else {
-                    Elec = "Suite";
-                }
-
-                System.out.println("Usted eligió la habitación " + Elec);
-
-                // El tamaño de la habitación
-                System.out.println("Elija el tamaño de la habitación:");
-                if ((Elec).equalsIgnoreCase("Estandar")) {
-                    Estandar objE = new Estandar("", 0, "0", "0", 0, 0, 0);
-                    objE.tamañoE();
-                } else {
-                    Suite objS = new Suite("", 0, "0", "0", 0, 0, 0);
-                    objS.tamañoE();
-                }
-
-                tamaño = input.nextLine();
-
-                // estas pues son la noches
-                System.out.println("¿Cuántas noches desea reservar?");
-                noche = input.nextInt();
-                input.nextLine(); // Limpiar buffer
-
-                // Personas extras
-                System.out.println("¿Desea agregar hasta 2 personas extras? (si/no)");
-                String R = input.nextLine();
-                if (R.equalsIgnoreCase("si")) {
-                    System.out.println("Ingrese el número de personas a agregar (máximo 2):");
-                    ext = input.nextInt();
-                    input.nextLine(); // Limpiar buffer
-                }
-
-                // este me agrega lo que es la reserva
-                if (Elec.equals("Estandar")) {
-                    Estandar objE = new Estandar(nombre, habitacion, Elec, tamaño, 3600, ext, noche);
-                    objE.noches();
-                    cl.add(objE);
-                    System.out.println("Reserva Estándar " + reservaEstandar);
-                    reservaEstandar++;
-                } else {
-                    Suite objS = new Suite(nombre, habitacion, Elec, tamaño, 8999, noche, ext);
-                    objS.noches();
-                    cl2.add(objS);
-                    System.out.println("Reserva Suite " + reservaSuite);
-                    reservaSuite++;
-                }
-
-                // preg si deseas otra reserva
-                System.out.println("¿Desea realizar otra reserva? (si/no)");
-                accion = input.nextLine();
-
-            } else if (chek.equalsIgnoreCase("check out")) {
-                System.out.println("Ingrese el número de habitación para hacer check out:");
-                int numCheckOut = input.nextInt();
-                input.nextLine();
-
-                if (numCheckOut < 1 || numCheckOut > nHabitacion) {
-                    System.out.println("Número de habitación inválido.");
-                } else if (estandar.get(numCheckOut - 1)) {
-                    System.out.println("La habitación ya está libre.");
-                } else {
-                    estandar.set(numCheckOut - 1, true);
-                    System.out.println("Check out exitoso. Habitación liberada.");
-                }
-            } else {
-                System.out.println("Opción no válida.");
+                default:
+                    System.out.println("Error, elige una accion mostrada anteriormente.");
+                    break;
             }
-
-            // Preguntar si desea realizar otra acción
-            System.out.println("¿Desea realizar otra acción? (si/no)");
-            otra_accion = input.nextLine();
-
-        } while (otra_accion.equalsIgnoreCase("si"));
-
-        //este me sirve que es para que me cuente al final las reservas
-        System.out.println("Tickets Estándar");
-        for (int j = 0; j < cl.size(); j++) {
-
-            cl.get(j).MostrarE(cl);
         }
-
-        System.out.println("Tickets Suite");
-        for (int j = 0; j < cl2.size(); j++) {
-
-            cl2.get(j).MostrarS(cl2);
-        }
-
-        Habitaciones obje = new Habitaciones("", 0, "", "", 0, 0, 0);
-
-    }
-
-    public static void login() {
-        Validador<Integer> scan = new Validador<>();
-        System.out.println("Bienvenido al Hotel HostBint");
-        System.out.println("Por favor, indique su tipo de usuario:");
-        System.out.println("1. Administrador");
-        System.out.println("2. Empleado");
-        System.out.println("3. Cliente");
-        int tipo_usuario = scan.validarEntrada(Integer.class);
-        scan.validarRango(1, 3, tipo_usuario);
     }
 }
+
+
