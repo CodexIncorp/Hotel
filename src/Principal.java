@@ -178,21 +178,13 @@ public class Principal {
     }
 
     public static void login() {
-        Scanner scan = new Scanner(System.in);
+        Validador<Integer> scan = new Validador<>();
         System.out.println("Bienvenido al Hotel HostBint");
         System.out.println("Por favor, indique su tipo de usuario:");
         System.out.println("1. Administrador");
         System.out.println("2. Empleado");
         System.out.println("3. Cliente");
-        while (error) {
-            try {
-                int tipo_usuario = Integer.parseInt(scan.nextLine());
-                error = false;
-
-            } catch (Exception e) {
-                System.out.println("Error: " + e.getMessage());
-                error = true;
-            }
-        }
+        int tipo_usuario = scan.validarEntrada(Integer.class);
+        scan.validarRango(1, 3, tipo_usuario);
     }
 }
