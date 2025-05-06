@@ -7,7 +7,7 @@ public class Estandar extends Habitacion  {
 
     @Override
     public void calculo() {
-        System.out.println("El precio final de la habitación estandar es " + getPrecioFinal());
+        System.out.println("El precio final de la habitacion estandar es " + getPrecioFinal());
     }
 
     @Override
@@ -21,6 +21,6 @@ public class Estandar extends Habitacion  {
     }
 
     public static void mostrarBeneficios() {
-        System.out.println("Beneficios de la habitacion Estándar: WiFi gratuito, aire acondicionado, cama king size.");
+        System.out.println("Beneficios de la habitacion Estandar: WiFi gratuito, aire acondicionado, cama king size.");
     }
 }

@@ -26,7 +26,7 @@ public abstract class Habitacion {
         this.precio = precio;
         this.noche = noche;
         this.extra = extra;
-        this.ocupada = false; // al principio todas las habitaciones están desocupadas
+        this.ocupada = false; 
     }
 
     public abstract void calculo();
@@ -59,36 +59,64 @@ public abstract class Habitacion {
 
     // es mi metodo pues para calcular el precio por noche dependiendo del tamanio de la habitacion
     public void calcularPrecioPorNoche() {
-        // Precio base para habitacion estandar cuando es chica
-        float precioBase = 3600;
+    float aumento = 0;
+    
 
-        // aumenta 200 por tamanio en habitación estándar
-        if (tipo_H == 1) {//Estandar
-            if (tamanio == 2) {//Mediana
-                precio = precioBase + 200;                                          // Aumento por tamanio Mediano
-            } else if (tamanio == 3) {//Grande
-                precio = precioBase + 400;                                          // Aumento por tamanio Grande
-            } else {
-                precio = precioBase; // Precio base para tamanio Chica
-            }
+    if (tipo_H == 1) { // Estandar
+        if (tamanio == 2) {
+            aumento = 200; // Mediana
+        } else if (tamanio == 3) {
+            aumento = 400; // Grande
         }
-        // aumento por tamanio en habitación suite
-        else if (tipo_H == 2) {//Suite
-            if (tamanio == 2) {//Mediana
-                precio = precioBase + 400; // aumento por tamanio Mediano
-            } else if (tamanio == 3) {//Grande
-                precio = precioBase + 600; // aumento por tamanio Grande
-            } else {
-                precio = precioBase + 300; // precio base para tamanio Chica en Suite
-            }
+    } else if (tipo_H == 2) { // Suite
+        if (tamanio == 1) {
+            aumento = 300; // Chica
+        } else if (tamanio == 2) {
+            aumento = 400; // Mediana
+        } else if (tamanio == 3) {
+            aumento = 600; // Grande
         }
     }
+
+    precio += aumento; // Aumentamos sobre el precio ingresado por el usuario
+}
+
 
     public float getPrecioFinal() {
         // Precio final: precio base + extra por personas + tamanio (aumento por tamanio) es para sacar pues el precio final XD
         float precioFinal = precio + (extra * 100); // El incremento por extra personas.
-        return precioFinal * noche; // Multiplicamos por las noches reservadas.
+        return precioFinal * noche; // multiplicamos por las noches reservadas.
     }
+    
+    @Override
+public String toString() {
+    return nombre + "," + tipo_H + "," + tamanio + "," + precio + "," + noche + "," + extra + "," + ocupada;
+}
+    
+public static Habitacion fromString(String linea) {
+    String[] datos = linea.split(",");
+    String nombre = datos[0];
+    int tipo_H = Integer.parseInt(datos[1]);
+    int tamanio = Integer.parseInt(datos[2]);
+    float precio = Float.parseFloat(datos[3]);
+    int noche = Integer.parseInt(datos[4]);
+    int extra = Integer.parseInt(datos[5]);
+    boolean ocupada = Boolean.parseBoolean(datos[6]);
+
+    Habitacion h;
+    if (tipo_H == 1) {
+        h = new Estandar(nombre, tipo_H, tamanio, precio, noche, extra);
+    } else {
+        h = new Suite(nombre, tipo_H, tamanio, precio, noche, extra);
+    }
+    if (ocupada) h.marcarOcupada();
+    return h;
+}
+
+  
+
+        
+    
 }
 
 
